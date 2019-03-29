@@ -23,6 +23,7 @@ class TestPathwayAssessor(unittest.TestCase):
         self.sample_pathway = ['SLC2A6', 'PHOSPHO1', 'PIKFYVE', 'VHL']
 
         self.pathway_ranks = _.pathway_ranks(self.sample_pathway, self.expression_ranks)
+        self.effective_pathway = _.effective_pathway(self.pathway_ranks)
 
 
     # sanity check
@@ -56,6 +57,13 @@ class TestPathwayAssessor(unittest.TestCase):
         self.assertEqual(self.pathway_ranks['Sample_B'].loc['PIKFYVE'], 3)
         self.assertEqual(self.pathway_ranks['Sample_C'].loc['PIKFYVE'], 2)
 
+    def test_effective_pathway_returns_series_of_expected_lengths(self):
+        expected = {
+            'Sample_A': 3,
+            'Sample_B': 3,
+            'Sample_C': 2
+        }
+        self.assertDictEqual(self.effective_pathway.to_dict(), expected)
 
 if __name__ == '__main__':
     unittest.main()

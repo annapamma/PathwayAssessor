@@ -20,3 +20,6 @@ def pathway_ranks(pathway_genes, expression_ranks_df):
     return expression_ranks_df.reindex(pathway_genes).rank().dropna(how='all')
 
 
+def effective_pathway(pathway_ranks_df):
+    return pathway_ranks_df.max()
+
