@@ -14,3 +14,9 @@ def expression_ranks(expression_table_df, ascending):
 # bg_genes: df of samples with background gene count
 def bg_genes(expression_ranks_df):
     return expression_ranks_df.count()
+
+
+def pathway_ranks(pathway_genes, expression_ranks_df):
+    return expression_ranks_df.reindex(pathway_genes).rank().dropna(how='all')
+
+

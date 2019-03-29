@@ -18,6 +18,13 @@ class TestPathwayAssessor(unittest.TestCase):
         self.expression_ranks = _.expression_ranks(self.expression_table, ascending=self.ascending)
         self.bg_genes = _.bg_genes(self.expression_ranks)
 
+        self.sample_order = self.expression_table.columns
+
+        self.sample_pathway = ['SLC2A6', 'PHOSPHO1', 'PIKFYVE', 'VHL']
+
+        self.pathway_ranks = _.pathway_ranks(self.sample_pathway, self.expression_ranks)
+
+
     # sanity check
     def test_hello_world_returns_str(self):
         self.assertIsInstance('hello world', str)
@@ -43,6 +50,11 @@ class TestPathwayAssessor(unittest.TestCase):
         }
         self.assertIsInstance(self.bg_genes, pd.Series)
         self.assertDictEqual(self.bg_genes.to_dict(), expected)
+
+    def test_pathway_rank_returns_expected_ranks(self):
+        self.assertEqual(self.pathway_ranks['Sample_A'].loc['PIKFYVE'], 3)
+        self.assertEqual(self.pathway_ranks['Sample_B'].loc['PIKFYVE'], 3)
+        self.assertEqual(self.pathway_ranks['Sample_C'].loc['PIKFYVE'], 2)
 
 
 if __name__ == '__main__':
