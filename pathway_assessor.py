@@ -9,3 +9,8 @@ def expression_table(f):
 
 def expression_ranks(expression_table_df, ascending):
     return expression_table_df.rank(method='first', ascending=ascending)
+
+
+# bg_genes: df of samples with background gene count
+def bg_genes(expression_ranks_df):
+    return expression_ranks_df.count()
