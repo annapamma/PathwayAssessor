@@ -6,3 +6,6 @@ def expression_table(f):
     df.index.name = 'genes'
     return df.groupby('genes').mean()
 
+
+def expression_ranks(expression_table_df, ascending):
+    return expression_table_df.rank(method='first', ascending=ascending)
