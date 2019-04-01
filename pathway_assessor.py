@@ -2,6 +2,9 @@ import numpy as np
 import pandas as pd
 import scipy.stats as stats
 
+import pathlib
+import pickle
+
 
 def expression_table(f):
     df = pd.read_csv(f, sep='\t', header=0, index_col=0)
@@ -86,3 +89,16 @@ def geometric_average(iterable):
         return 0
 
 
+def user_pw_metadata_f(pw_data, output_dir_path):
+    output_loc = '{}/user_pathways.tsv'.format(output_dir_path)
+    pd.DataFrame.from_dict(pw_data, orient='index').to_csv(output_loc, sep='\t')
+
+
+def pw_metadata_f(pw_db_choice, output_dir_path):
+    output_loc = '{}/{}.tsv'.format(output_dir_path, pw_db_choice)
+    pw_data = pickle.load(open('databases/metadata/{}.pkl'.format(pw_db_choice), 'rb'))
+    pw_data.to_csv(output_loc, sep='\t')
+
+
+def output_dir(output_dir_path):
+    pathlib.Path(output_dir_path).mkdir(parents=True, exist_ok=True)
