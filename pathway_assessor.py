@@ -65,3 +65,14 @@ def clean_fisher_exact(table):
 def p_values(sample_2x2_df):
     return sample_2x2_df.apply(np.vectorize(clean_fisher_exact))
 
+
+def neg_log(table):
+    return -np.log(table)
+
+def harmonic_average(iterable):
+    try:
+        clean_iterable = [el for el in iterable if ~np.isnan(el)]
+        return len(clean_iterable) / sum([1/el for el in clean_iterable])
+    except ZeroDivisionError:
+        return 0
+

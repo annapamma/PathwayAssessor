@@ -137,5 +137,41 @@ class TestPathwayAssessor(unittest.TestCase):
         self.assertTrue(np.isnan(self.sample_2x2['Sample_C'].to_dict()['PHOSPHO1']).all())
 
 
+    def test_p_values_returns_dict_of_expected_p_values(self):
+        expected_dict = {
+            'Sample_A': {
+                'PHOSPHO1': 0.0881880024737169,
+                'PIKFYVE': 6.184291898577608e-05,
+                'SLC2A6': 0.0035868893011750088
+            },
+            'Sample_B': {
+                'SLC2A6': 0.03030303030302651,
+                'PHOSPHO1': 0.0006184291898577372,
+                'PIKFYVE': 0.000025502234633308575,
+            },
+            'Sample_C': {
+                'SLC2A6': 0.05998763141620062,
+                'PIKFYVE': 0.0012368583797154767,
+            },
+        }
+        sample_b = self.p_values['Sample_B'].to_dict()
+        sample_c = self.p_values['Sample_C'].to_dict()
+        self.assertEqual(self.p_values['Sample_A'].to_dict(), expected_dict['Sample_A'])
+        self.assertAlmostEqual(sample_b['SLC2A6'], expected_dict['Sample_B']['SLC2A6'])
+        self.assertAlmostEqual(sample_b['PHOSPHO1'], expected_dict['Sample_B']['PHOSPHO1'])
+        self.assertAlmostEqual(sample_b['PIKFYVE'], expected_dict['Sample_B']['PIKFYVE'])
+        self.assertAlmostEqual(sample_c['SLC2A6'], expected_dict['Sample_C']['SLC2A6'])
+        self.assertAlmostEqual(sample_c['PIKFYVE'], expected_dict['Sample_C']['PIKFYVE'])
+        self.assertTrue(pd.isna(sample_c['PHOSPHO1']))
+
+
+    def test_harmonic_average_returns_expected_val(self):
+        p_vals = [0.1, 0.2, 0.3, np.nan]
+        expected = 0.16363636363636364
+        self.assertEqual(
+            _.harmonic_average(p_vals),
+            expected
+        )
+
 if __name__ == '__main__':
     unittest.main()
