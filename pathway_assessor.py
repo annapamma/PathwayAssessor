@@ -1,9 +1,10 @@
+import csv
+import pathlib
+import pickle
+
 import numpy as np
 import pandas as pd
 import scipy.stats as stats
-
-import pathlib
-import pickle
 
 
 def expression_table(f):
@@ -102,3 +103,20 @@ def pw_metadata_f(pw_db_choice, output_dir_path):
 
 def output_dir(output_dir_path):
     pathlib.Path(output_dir_path).mkdir(parents=True, exist_ok=True)
+
+
+def user_pathways(f):
+    pathway_db = {}
+    pw_data = {}
+    with open(f, 'r') as csv_in:
+        reader = csv.reader(csv_in)
+        for row in reader:
+            pw = row[0]
+            db = row[1]
+            genes = set(row[2:])
+            pathway_db[pw] = genes
+            pw_data[pw] = {
+                'db': db,
+                'count': len(genes)
+            }
+    return pathway_db, pw_data
