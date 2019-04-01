@@ -41,6 +41,7 @@ class TestPathwayAssessor(unittest.TestCase):
         self.log_harmonic_averages = _.neg_log(self.harmonic_averages)
         self.geometric_averages = self.p_values.apply(_.geometric_average)
         self.log_geometric_averages = _.neg_log(self.geometric_averages)
+        self.log_min_p_vals = _.neg_log(self.p_values.min())
 
 
     # sanity check
@@ -233,6 +234,17 @@ class TestPathwayAssessor(unittest.TestCase):
         self.assertAlmostEqual(self.log_geometric_averages['Sample_A'], expected_dict['Sample_A'])
         self.assertAlmostEqual(self.log_geometric_averages['Sample_B'], expected_dict['Sample_B'])
         self.assertAlmostEqual(self.log_geometric_averages['Sample_C'], expected_dict['Sample_C'])
+
+    def test_log_min_p_vals_returns_dict_of_expected_values(self):
+        expected_dict = {
+            'Sample_A': 9.690912952571226,
+            'Sample_B': 10.576744476960645,
+            'Sample_C': 6.695180679017199
+        }
+        self.assertAlmostEqual(self.log_min_p_vals['Sample_A'], expected_dict['Sample_A'])
+        self.assertAlmostEqual(self.log_min_p_vals['Sample_B'], expected_dict['Sample_B'])
+        self.assertAlmostEqual(self.log_min_p_vals['Sample_C'], expected_dict['Sample_C'])
+
 
 
 if __name__ == '__main__':
