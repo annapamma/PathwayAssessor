@@ -24,6 +24,7 @@ class TestPathwayAssessor(unittest.TestCase):
 
         self.pathway_ranks = _.pathway_ranks(self.sample_pathway, self.expression_ranks)
         self.effective_pathway = _.effective_pathway(self.pathway_ranks)
+        self.b = _.b(self.expression_ranks, self.pathway_ranks)
 
 
     # sanity check
@@ -64,6 +65,20 @@ class TestPathwayAssessor(unittest.TestCase):
             'Sample_C': 2
         }
         self.assertDictEqual(self.effective_pathway.to_dict(), expected)
+
+    def test_b_returns_df_of_expected_values(self):
+        self.assertEqual(self.b['Sample_A'].loc['PIKFYVE'], 2)
+        self.assertEqual(self.b['Sample_B'].loc['PIKFYVE'], 1)
+        self.assertEqual(self.b['Sample_C'].loc['PIKFYVE'], 2)
+        self.assertEqual(self.b['Sample_A'].loc['SLC2A6'], 2)
+        self.assertEqual(self.b['Sample_B'].loc['SLC2A6'], 0)
+        self.assertEqual(self.b['Sample_C'].loc['SLC2A6'], 2)
+        self.assertEqual(self.b['Sample_A'].loc['PHOSPHO1'], 2)
+        self.assertEqual(self.b['Sample_B'].loc['PHOSPHO1'], 0)
+        self.assertTrue(pd.isna(self.b['Sample_C'].loc['PHOSPHO1']))
+
+
+
 
 if __name__ == '__main__':
     unittest.main()

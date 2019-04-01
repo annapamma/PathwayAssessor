@@ -23,3 +23,7 @@ def pathway_ranks(pathway_genes, expression_ranks_df):
 def effective_pathway(pathway_ranks_df):
     return pathway_ranks_df.max()
 
+
+def b(expression_ranks_df, pathway_ranks_df):
+    return expression_ranks_df.subtract(pathway_ranks_df).dropna(how='all')
+
