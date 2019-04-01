@@ -245,7 +245,32 @@ class TestPathwayAssessor(unittest.TestCase):
         self.assertAlmostEqual(self.log_min_p_vals['Sample_B'], expected_dict['Sample_B'])
         self.assertAlmostEqual(self.log_min_p_vals['Sample_C'], expected_dict['Sample_C'])
 
-
+    def test_user_pathway_returns_dict_of_expected_shape(self):
+        user_pathway_f = 'tests/user_pathways.txt'
+        pathway_db, pw_data = _.user_pathways(user_pathway_f)
+        expected_pw_db = {
+            'EMT_kircUp': {'TGFB1', 'LAMA5', 'EGFR'},
+            'EMT_kircDwn': {'CDH1', 'EGF', 'ERBB2'},
+            'EMT_kirc': {'VCAN', 'EMP3', 'ZEB1', 'CDH2', 'GEM', 'COL4A2', 'SPOCK1'},
+        }
+        expected_pw_data = {
+            'EMT_kircUp': {
+                'db': 'ScientificReport',
+                'count': 3,
+            },
+            'EMT_kircDwn': {
+                'db': 'ScientificReport',
+                'count': 3,
+            },
+            'EMT_kirc': {
+                'db': 'Review',
+                'count': 7
+            },
+        }
+        self.assertIsInstance(pathway_db, dict)
+        self.assertDictEqual(pathway_db, expected_pw_db)
+        self.assertIsInstance(pw_data, dict)
+        self.assertDictEqual(pw_data, expected_pw_data)
 
 if __name__ == '__main__':
     unittest.main()
