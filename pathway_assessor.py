@@ -1,4 +1,6 @@
+import numpy as np
 import pandas as pd
+import scipy.stats as stats
 
 
 def expression_table(f):
@@ -49,4 +51,17 @@ def sample_2x2(pathway_ranks_dict, b_dict, c_dict, d_dict):
     }
     return pd.DataFrame(final_dict)
 
+
+def clean_fisher_exact(table):
+    try:
+        if np.isnan(table).any():
+            return np.nan
+        else:
+            return stats.fisher_exact(table, alternative='greater')[1]
+    except ValueError:
+        print(table)
+
+
+def p_values(sample_2x2_df):
+    return sample_2x2_df.apply(np.vectorize(clean_fisher_exact))
 

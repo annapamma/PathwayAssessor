@@ -35,7 +35,7 @@ class TestPathwayAssessor(unittest.TestCase):
             self.c.to_dict(),
             self.d.to_dict()
         )
-
+        self.p_values = _.p_values(self.sample_2x2)
 
     # sanity check
     def test_hello_world_returns_str(self):
@@ -112,6 +112,29 @@ class TestPathwayAssessor(unittest.TestCase):
     def test_sample_2x2_returns_dataframe_of_numpy_arrays(self):
         self.assertIsInstance(self.sample_2x2, pd.DataFrame)
         self.assertTrue(all([type(i) == np.ndarray for i in self.sample_2x2.values]))
+
+    def test_sample_2x2_returns_dataframe_of_expected_values(self):
+        expected_dict = {
+            'Sample_A': {
+                'SLC2A6': [[2, 2], [1, 95]],
+                'PHOSPHO1': [[1, 2], [2, 95]],
+                'PIKFYVE': [[3, 2], [0, 95]],
+            },
+            'Sample_B': {
+                'SLC2A6': [[1, 0], [2, 96]],
+                'PHOSPHO1': [[2, 0], [1, 96]],
+                'PIKFYVE': [[3, 1], [0, 95]],
+            },
+            'Sample_C': {
+                'SLC2A6': [[1, 2], [1, 95]],
+                'PIKFYVE': [[2, 2], [0, 95]],
+            },
+        }
+        self.assertEqual(self.sample_2x2['Sample_A'].to_dict(), expected_dict['Sample_A'])
+        self.assertEqual(self.sample_2x2['Sample_B'].to_dict(), expected_dict['Sample_B'])
+        self.assertEqual(self.sample_2x2['Sample_C'].to_dict()['SLC2A6'], expected_dict['Sample_C']['SLC2A6'])
+        self.assertEqual(self.sample_2x2['Sample_C'].to_dict()['PIKFYVE'], expected_dict['Sample_C']['PIKFYVE'])
+        self.assertTrue(np.isnan(self.sample_2x2['Sample_C'].to_dict()['PHOSPHO1']).all())
 
 
 if __name__ == '__main__':
