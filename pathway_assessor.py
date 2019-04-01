@@ -36,4 +36,17 @@ def d(bg_series, pathway_ranks_df, b_df, c_df):
     return bg_series - pathway_ranks_df - b_df - c_df
 
 
+def sample_2x2(pathway_ranks_dict, b_dict, c_dict, d_dict):
+    final_dict = {
+        sample: {
+            gene: [
+                [val, b_dict[sample][gene]],
+                [c_dict[sample][gene], d_dict[sample][gene]]
+            ]
+            for (gene, val) in genes.items()
+        }
+        for (sample, genes) in pathway_ranks_dict.items()
+    }
+    return pd.DataFrame(final_dict)
+
 

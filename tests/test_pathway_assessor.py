@@ -1,6 +1,7 @@
 import unittest
 import sys
 
+import numpy as np
 import pandas as pd
 
 from os import path
@@ -27,6 +28,13 @@ class TestPathwayAssessor(unittest.TestCase):
         self.b = _.b(self.expression_ranks, self.pathway_ranks)
         self.c = _.c(self.effective_pathway, self.pathway_ranks)
         self.d = _.d(self.bg_genes, self.pathway_ranks, self.b, self.c)
+
+        self.sample_2x2 = _.sample_2x2(
+            self.pathway_ranks.to_dict(),
+            self.b.to_dict(),
+            self.c.to_dict(),
+            self.d.to_dict()
+        )
 
 
     # sanity check
@@ -101,6 +109,9 @@ class TestPathwayAssessor(unittest.TestCase):
         self.assertTrue(pd.isna(self.d['Sample_C'].loc['PHOSPHO1']))
         self.assertEqual(self.d['Sample_C'].loc['PIKFYVE'], 95)
 
+    def test_sample_2x2_returns_dataframe_of_numpy_arrays(self):
+        self.assertIsInstance(self.sample_2x2, pd.DataFrame)
+        self.assertTrue(all([type(i) == np.ndarray for i in self.sample_2x2.values]))
 
 
 if __name__ == '__main__':
