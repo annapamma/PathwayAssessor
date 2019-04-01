@@ -39,6 +39,9 @@ class TestPathwayAssessor(unittest.TestCase):
 
         self.harmonic_averages = self.p_values.apply(_.harmonic_average)
         self.log_harmonic_averages = _.neg_log(self.harmonic_averages)
+        self.geometric_averages = self.p_values.apply(_.geometric_average)
+        self.log_geometric_averages = _.neg_log(self.geometric_averages)
+
 
     # sanity check
     def test_hello_world_returns_str(self):
@@ -183,7 +186,6 @@ class TestPathwayAssessor(unittest.TestCase):
             expected
         )
 
-
     def test_harmonic_averages_returns_dict_of_expected_values(self):
         expected_dict = {
             'Sample_A': 0.00018225855699385572,
@@ -203,6 +205,34 @@ class TestPathwayAssessor(unittest.TestCase):
         self.assertAlmostEqual(self.log_harmonic_averages['Sample_A'], expected_dict['Sample_A'])
         self.assertAlmostEqual(self.log_harmonic_averages['Sample_B'], expected_dict['Sample_B'])
         self.assertAlmostEqual(self.log_harmonic_averages['Sample_C'], expected_dict['Sample_C'])
+
+    def test_geometric_average_returns_expected_val(self):
+        p_vals = [0.1, 0.2, 0.3, np.nan]
+        expected = 0.181712059283214
+        self.assertAlmostEqual(
+            _.geometric_average(p_vals),
+            expected
+        )
+
+    def test_geometric_averages_returns_dict_of_expected_values(self):
+        expected_dict = {
+            'Sample_A': 0.002694464626458197,
+            'Sample_B': 0.0007818403721029415,
+            'Sample_C': 0.008613721878282994
+        }
+        self.assertAlmostEqual(self.geometric_averages['Sample_A'], expected_dict['Sample_A'])
+        self.assertAlmostEqual(self.geometric_averages['Sample_B'], expected_dict['Sample_B'])
+        self.assertAlmostEqual(self.geometric_averages['Sample_C'], expected_dict['Sample_C'])
+
+    def test_log_geometric_averages_returns_dict_of_expected_values(self):
+        expected_dict = {
+            'Sample_A': 5.916555748731008,
+            'Sample_B': 7.153859966001466,
+            'Sample_C': 4.75439878004548
+        }
+        self.assertAlmostEqual(self.log_geometric_averages['Sample_A'], expected_dict['Sample_A'])
+        self.assertAlmostEqual(self.log_geometric_averages['Sample_B'], expected_dict['Sample_B'])
+        self.assertAlmostEqual(self.log_geometric_averages['Sample_C'], expected_dict['Sample_C'])
 
 
 if __name__ == '__main__':
