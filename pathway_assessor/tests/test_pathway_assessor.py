@@ -313,6 +313,16 @@ class TestPathwayAssessor(unittest.TestCase):
         self.assertAlmostEqual(min_p_vals['Sample_B'], expected_min_p_vals['Sample_B'])
         self.assertAlmostEqual(min_p_vals['Sample_C'], expected_min_p_vals['Sample_C'])
 
+    def test_pathway_assessor_returns_none_if_statistic_is_set_to_false(self):
+        results = _.pathway_assessor(
+            expression_table_f=self.expression_table_f,
+            pathways=self.user_pathway_db,
+            geometric=False,
+            min_p_val=False,
+        )
+        self.assertIsNone(results['geometric'])
+        self.assertIsNone(results['min_p_val'])
+
 if __name__ == '__main__':
     # print(os.getcwd())
     unittest.main()
