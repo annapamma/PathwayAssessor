@@ -26,6 +26,7 @@ class TestPathwayAssessor(unittest.TestCase):
         self.effective_pathway = _.effective_pathway(self.pathway_ranks)
         self.b = _.b(self.expression_ranks, self.pathway_ranks)
         self.c = _.c(self.effective_pathway, self.pathway_ranks)
+        self.d = _.d(self.bg_genes, self.pathway_ranks, self.b, self.c)
 
 
     # sanity check
@@ -89,6 +90,16 @@ class TestPathwayAssessor(unittest.TestCase):
         self.assertEqual(self.c['Sample_B'].loc['PHOSPHO1'], 1)
         self.assertTrue(pd.isna(self.c['Sample_C'].loc['PHOSPHO1']))
 
+    def test_d_returns_df_of_expected_values(self):
+        self.assertEqual(self.d['Sample_A'].loc['SLC2A6'], 95)
+        self.assertEqual(self.d['Sample_A'].loc['PHOSPHO1'], 95)
+        self.assertEqual(self.d['Sample_A'].loc['PIKFYVE'], 95)
+        self.assertEqual(self.d['Sample_B'].loc['SLC2A6'], 96)
+        self.assertEqual(self.d['Sample_B'].loc['PHOSPHO1'], 96)
+        self.assertEqual(self.d['Sample_B'].loc['PIKFYVE'], 95)
+        self.assertEqual(self.d['Sample_C'].loc['SLC2A6'], 95)
+        self.assertTrue(pd.isna(self.d['Sample_C'].loc['PHOSPHO1']))
+        self.assertEqual(self.d['Sample_C'].loc['PIKFYVE'], 95)
 
 
 

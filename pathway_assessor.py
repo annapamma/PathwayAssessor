@@ -32,3 +32,8 @@ def c(effective_pathway_series, pathway_ranks_df):
     return effective_pathway_series - pathway_ranks_df
 
 
+def d(bg_series, pathway_ranks_df, b_df, c_df):
+    return bg_series - pathway_ranks_df - b_df - c_df
+
+
+
