@@ -37,6 +37,9 @@ class TestPathwayAssessor(unittest.TestCase):
         )
         self.p_values = _.p_values(self.sample_2x2)
 
+        self.harmonic_averages = self.p_values.apply(_.harmonic_average)
+        self.log_harmonic_averages = _.neg_log(self.harmonic_averages)
+
     # sanity check
     def test_hello_world_returns_str(self):
         self.assertIsInstance('hello world', str)
@@ -164,7 +167,6 @@ class TestPathwayAssessor(unittest.TestCase):
         self.assertAlmostEqual(sample_c['PIKFYVE'], expected_dict['Sample_C']['PIKFYVE'])
         self.assertTrue(pd.isna(sample_c['PHOSPHO1']))
 
-
     def test_harmonic_average_returns_expected_val(self):
         p_vals = [0.1, 0.2, 0.3, np.nan]
         expected = 0.16363636363636364
@@ -172,6 +174,36 @@ class TestPathwayAssessor(unittest.TestCase):
             _.harmonic_average(p_vals),
             expected
         )
+
+    def test_harmonic_average_returns_zero_if_zero_p_val(self):
+        p_vals = [0.1, 0.2, 0.3, 0, np.nan]
+        expected = 0
+        self.assertEqual(
+            _.harmonic_average(p_vals),
+            expected
+        )
+
+
+    def test_harmonic_averages_returns_dict_of_expected_values(self):
+        expected_dict = {
+            'Sample_A': 0.00018225855699385572,
+            'Sample_B': 7.341739625203858e-05,
+            'Sample_C': 0.002423742683482853
+        }
+        self.assertAlmostEqual(self.harmonic_averages['Sample_A'], expected_dict['Sample_A'])
+        self.assertAlmostEqual(self.harmonic_averages['Sample_B'], expected_dict['Sample_B'])
+        self.assertAlmostEqual(self.harmonic_averages['Sample_C'], expected_dict['Sample_C'])
+
+    def test_log_harmonic_averages_returns_dict_of_expected_values(self):
+        expected_dict = {
+            'Sample_A': 8.610084236222475,
+            'Sample_B': 9.519349644266763,
+            'Sample_C': 6.02244237008846
+        }
+        self.assertAlmostEqual(self.log_harmonic_averages['Sample_A'], expected_dict['Sample_A'])
+        self.assertAlmostEqual(self.log_harmonic_averages['Sample_B'], expected_dict['Sample_B'])
+        self.assertAlmostEqual(self.log_harmonic_averages['Sample_C'], expected_dict['Sample_C'])
+
 
 if __name__ == '__main__':
     unittest.main()

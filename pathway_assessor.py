@@ -69,10 +69,20 @@ def p_values(sample_2x2_df):
 def neg_log(table):
     return -np.log(table)
 
+
 def harmonic_average(iterable):
     try:
         clean_iterable = [el for el in iterable if ~np.isnan(el)]
         return len(clean_iterable) / sum([1/el for el in clean_iterable])
     except ZeroDivisionError:
         return 0
+
+
+def geometric_average(iterable):
+    try:
+        clean_iterable = [el for el in iterable if ~np.isnan(el)]
+        return np.exp(np.sum(np.log(clean_iterable)) / len(clean_iterable))
+    except ZeroDivisionError:
+        return 0
+
 
