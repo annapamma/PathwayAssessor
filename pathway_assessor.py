@@ -27,3 +27,8 @@ def effective_pathway(pathway_ranks_df):
 def b(expression_ranks_df, pathway_ranks_df):
     return expression_ranks_df.subtract(pathway_ranks_df).dropna(how='all')
 
+
+def c(effective_pathway_series, pathway_ranks_df):
+    return effective_pathway_series - pathway_ranks_df
+
+

@@ -25,6 +25,7 @@ class TestPathwayAssessor(unittest.TestCase):
         self.pathway_ranks = _.pathway_ranks(self.sample_pathway, self.expression_ranks)
         self.effective_pathway = _.effective_pathway(self.pathway_ranks)
         self.b = _.b(self.expression_ranks, self.pathway_ranks)
+        self.c = _.c(self.effective_pathway, self.pathway_ranks)
 
 
     # sanity check
@@ -76,6 +77,17 @@ class TestPathwayAssessor(unittest.TestCase):
         self.assertEqual(self.b['Sample_A'].loc['PHOSPHO1'], 2)
         self.assertEqual(self.b['Sample_B'].loc['PHOSPHO1'], 0)
         self.assertTrue(pd.isna(self.b['Sample_C'].loc['PHOSPHO1']))
+
+    def test_c_returns_df_of_expected_values(self):
+        self.assertEqual(self.c['Sample_A'].loc['PIKFYVE'], 0)
+        self.assertEqual(self.c['Sample_B'].loc['PIKFYVE'], 0)
+        self.assertEqual(self.c['Sample_C'].loc['PIKFYVE'], 0)
+        self.assertEqual(self.c['Sample_A'].loc['SLC2A6'], 1)
+        self.assertEqual(self.c['Sample_B'].loc['SLC2A6'], 2)
+        self.assertEqual(self.c['Sample_C'].loc['SLC2A6'], 1)
+        self.assertEqual(self.c['Sample_A'].loc['PHOSPHO1'], 2)
+        self.assertEqual(self.c['Sample_B'].loc['PHOSPHO1'], 1)
+        self.assertTrue(pd.isna(self.c['Sample_C'].loc['PHOSPHO1']))
 
 
 
