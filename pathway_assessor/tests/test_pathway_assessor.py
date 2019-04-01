@@ -4,8 +4,8 @@ import sys
 import numpy as np
 import pandas as pd
 
-from os import path
-sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import pathway_assessor as _
 
@@ -14,7 +14,7 @@ class TestPathwayAssessor(unittest.TestCase):
 
     def setUp(self):
         self.ascending = True
-        self.expression_table_f = 'tests/expression_table.tsv'
+        self.expression_table_f = '/Users/anna/PycharmProjects/PathwayAssessor/pathway_assessor/tests/expression_table.tsv'
         self.expression_table = _.expression_table(self.expression_table_f)
         self.expression_ranks = _.expression_ranks(self.expression_table, ascending=self.ascending)
         self.bg_genes = _.bg_genes(self.expression_ranks)
@@ -43,6 +43,8 @@ class TestPathwayAssessor(unittest.TestCase):
         self.log_geometric_averages = _.neg_log(self.geometric_averages)
         self.log_min_p_vals = _.neg_log(self.p_values.min())
 
+        self.user_pathway_f = '/Users/anna/PycharmProjects/PathwayAssessor/pathway_assessor/tests/user_pathways.txt'
+        self.user_pathway_db, self.user_pw_data = _.user_pathways(self.user_pathway_f)
 
     # sanity check
     def test_hello_world_returns_str(self):
@@ -246,12 +248,11 @@ class TestPathwayAssessor(unittest.TestCase):
         self.assertAlmostEqual(self.log_min_p_vals['Sample_C'], expected_dict['Sample_C'])
 
     def test_user_pathway_returns_dict_of_expected_shape(self):
-        user_pathway_f = 'tests/user_pathways.txt'
-        pathway_db, pw_data = _.user_pathways(user_pathway_f)
         expected_pw_db = {
             'EMT_kircUp': {'TGFB1', 'LAMA5', 'EGFR'},
             'EMT_kircDwn': {'CDH1', 'EGF', 'ERBB2'},
             'EMT_kirc': {'VCAN', 'EMP3', 'ZEB1', 'CDH2', 'GEM', 'COL4A2', 'SPOCK1'},
+            'Sample_pathway': {'SLC2A6', 'PHOSPHO1', 'PIKFYVE', 'VHL'}
         }
         expected_pw_data = {
             'EMT_kircUp': {
@@ -266,11 +267,52 @@ class TestPathwayAssessor(unittest.TestCase):
                 'db': 'Review',
                 'count': 7
             },
+            'Sample_pathway': {
+                'db': 'Test_Suite',
+                'count': 4
+            }
         }
-        self.assertIsInstance(pathway_db, dict)
-        self.assertDictEqual(pathway_db, expected_pw_db)
-        self.assertIsInstance(pw_data, dict)
-        self.assertDictEqual(pw_data, expected_pw_data)
+        self.assertIsInstance(self.user_pathway_db, dict)
+        self.assertDictEqual(self.user_pathway_db, expected_pw_db)
+        self.assertIsInstance(self.user_pw_data, dict)
+        self.assertDictEqual(self.user_pw_data, expected_pw_data)
+
+    def test_pathway_assessor_returns_three_dataframes_of_expected_values(self):
+        results = _.pathway_assessor(
+            expression_table_f=self.expression_table_f,
+            pathways=self.user_pathway_db,
+            geometric=True,
+            min_p_val=True,
+        )
+        harmonic_avg = results['harmonic'].loc['Sample_pathway'].to_dict()
+        geometric_avg = results['geometric'].loc['Sample_pathway'].to_dict()
+        min_p_vals = results['min_p_val'].loc['Sample_pathway'].to_dict()
+        expected_harmonic_avg = {
+            'Sample_A': 8.610084236222475,
+            'Sample_B': 9.519349644266763,
+            'Sample_C': 6.02244237008846
+        }
+        expected_geometric_avg = {
+            'Sample_A': 5.916555748731008,
+            'Sample_B': 7.153859966001466,
+            'Sample_C': 4.75439878004548
+        }
+        expected_min_p_vals = {
+            'Sample_A': 9.690912952571226,
+            'Sample_B': 10.576744476960645,
+            'Sample_C': 6.695180679017199
+        }
+        self.assertEqual(len(results), 3)
+        self.assertAlmostEqual(harmonic_avg['Sample_A'], expected_harmonic_avg['Sample_A'])
+        self.assertAlmostEqual(harmonic_avg['Sample_B'], expected_harmonic_avg['Sample_B'])
+        self.assertAlmostEqual(harmonic_avg['Sample_C'], expected_harmonic_avg['Sample_C'])
+        self.assertAlmostEqual(geometric_avg['Sample_A'], expected_geometric_avg['Sample_A'])
+        self.assertAlmostEqual(geometric_avg['Sample_B'], expected_geometric_avg['Sample_B'])
+        self.assertAlmostEqual(geometric_avg['Sample_C'], expected_geometric_avg['Sample_C'])
+        self.assertAlmostEqual(min_p_vals['Sample_A'], expected_min_p_vals['Sample_A'])
+        self.assertAlmostEqual(min_p_vals['Sample_B'], expected_min_p_vals['Sample_B'])
+        self.assertAlmostEqual(min_p_vals['Sample_C'], expected_min_p_vals['Sample_C'])
 
 if __name__ == '__main__':
+    # print(os.getcwd())
     unittest.main()

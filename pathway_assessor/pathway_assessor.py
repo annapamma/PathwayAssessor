@@ -75,11 +75,16 @@ def neg_log(table):
 
 
 def harmonic_average(iterable):
-    try:
-        clean_iterable = [el for el in iterable if ~np.isnan(el)]
-        return len(clean_iterable) / sum([1/el for el in clean_iterable])
-    except ZeroDivisionError:
+    if 0 in iterable:
         return 0
+
+    reciprocal_iterable = [1/el for el in iterable if ~np.isnan(el)]
+    denom = sum(reciprocal_iterable)
+
+    if denom == 0:
+        return np.nan
+    else:
+        return len(reciprocal_iterable) / denom
 
 
 def geometric_average(iterable):
@@ -120,3 +125,72 @@ def user_pathways(f):
                 'count': len(genes)
             }
     return pathway_db, pw_data
+
+
+def pathway_assessor(
+        expression_table_f,
+        pathways,
+        geometric=False,
+        min_p_val=False,
+        ascending=True
+):
+    harmonic_averages = [None] * len(pathways)
+
+    if geometric:
+        geometric_averages = [None] * len(pathways)
+    if min_p_val:
+        min_p_vals = [None] * len(pathways)
+
+    expression_table_df = expression_table(expression_table_f)
+    expression_ranks_df = expression_ranks(expression_table_df, ascending=ascending)
+    bg_genes_df = bg_genes(expression_ranks_df)
+
+    sample_order = expression_table_df.columns
+
+    # perform analysis for each pathway
+    for i, pathway in enumerate(pathways):
+        pathway_ranks_df = pathway_ranks(pathways[pathway], expression_ranks_df)
+        effective_pathway_df = effective_pathway(pathway_ranks_df)
+        b_df = b(expression_ranks_df, pathway_ranks_df)
+        c_df = c(effective_pathway_df, pathway_ranks_df)
+        d_df = d(bg_genes_df, pathway_ranks_df, b_df, c_df)
+
+        sample_2x2_df = sample_2x2(
+            pathway_ranks_df.to_dict(),
+            b_df.to_dict(),
+            c_df.to_dict(),
+            d_df.to_dict()
+        )
+        p_values_df = p_values(sample_2x2_df)
+
+        # Harmonic averaging is default
+        harmonic_averages_series = neg_log(p_values_df.apply(harmonic_average).loc[sample_order])
+        harmonic_averages_series.name = pathway
+        harmonic_averages[i] = harmonic_averages_series
+
+        if geometric:
+            geometric_averages_series = neg_log(p_values_df.apply(geometric_average).loc[sample_order])
+            geometric_averages_series.name = pathway
+            geometric_averages[i] = geometric_averages_series
+        if min_p_val:
+            min_p_vals_series = neg_log(p_values_df.min().loc[sample_order])
+            min_p_vals_series.name = pathway
+            min_p_vals[i] = min_p_vals_series
+
+    harmonic_averages_df = pd.concat(harmonic_averages, axis=1).T
+
+    if geometric:
+        geometric_averages_df = pd.concat(geometric_averages, axis=1).T
+    else:
+        geometric_averages_df = None
+
+    if min_p_val:
+        min_p_vals_df = pd.concat(min_p_vals, axis=1).T
+    else:
+        min_p_vals_df = None
+
+    return {
+               'harmonic': harmonic_averages_df,
+               'geometric': geometric_averages_df,
+                'min_p_val': min_p_vals_df
+    }

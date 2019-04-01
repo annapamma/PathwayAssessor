@@ -1,3 +1,4 @@
 EMT_kircUp,ScientificReport,TGFB1,EGFR,LAMA5
 EMT_kircDwn,ScientificReport,CDH1,ERBB2,EGF
 EMT_kirc,Review,EMP3,VCAN,GEM,CDH2,ZEB1,SPOCK1,COL4A2
+Sample_pathway,Test_Suite,SLC2A6,PHOSPHO1,PIKFYVE,VHL
