@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="pathway-assessor-annapamma3",
+    name="pathway-assessor",
     version="0.0.1",
     author="Anna Calinawan",
     author_email="anna.calinawan@mssm.edu",
