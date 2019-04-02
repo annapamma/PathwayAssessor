@@ -323,6 +323,6 @@ class TestPathwayAssessor(unittest.TestCase):
         self.assertIsNone(results['geometric'])
         self.assertIsNone(results['min_p_val'])
 
+
 if __name__ == '__main__':
-    # print(os.getcwd())
     unittest.main()
