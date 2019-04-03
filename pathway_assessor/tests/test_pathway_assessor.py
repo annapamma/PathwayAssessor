@@ -325,4 +325,5 @@ class TestPathwayAssessor(unittest.TestCase):
 
 
 if __name__ == '__main__':
+    # print(dir(_))
     unittest.main()

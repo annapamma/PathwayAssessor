@@ -1,3 +1,3 @@
-from .pathway_assessor import pathway_assessor
+from .pathway_assessor import *
 
 name = "pathway_assessor"
