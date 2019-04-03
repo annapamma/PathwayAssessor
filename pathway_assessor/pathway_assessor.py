@@ -160,6 +160,8 @@ def pathway_assessor(
 
     if not pathways:
         pathways = db_pathways_dict(db)
+    else:
+        validate_pathways(pathways)
 
     harmonic_averages = [None] * len(pathways)
 
