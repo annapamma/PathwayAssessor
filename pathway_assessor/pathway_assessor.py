@@ -93,6 +93,8 @@ def harmonic_average(iterable):
 def geometric_average(iterable):
     try:
         clean_iterable = [el for el in iterable if ~np.isnan(el)]
+        if not len(clean_iterable):
+            return np.nan
         return np.exp(np.sum(np.log(clean_iterable)) / len(clean_iterable))
     except ZeroDivisionError:
         return 0
