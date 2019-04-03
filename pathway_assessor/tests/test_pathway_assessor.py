@@ -13,8 +13,9 @@ import pathway_assessor as _
 class TestPathwayAssessor(unittest.TestCase):
 
     def setUp(self):
+        self.test_dir = os.path.dirname(os.path.abspath(__file__))
         self.ascending = True
-        self.expression_table_f = '/Users/anna/PycharmProjects/PathwayAssessor/pathway_assessor/tests/expression_table.tsv'
+        self.expression_table_f = '{}/expression_table.tsv'.format(self.test_dir)
         self.expression_table = _.expression_table(self.expression_table_f)
         self.expression_ranks = _.expression_ranks(self.expression_table, ascending=self.ascending)
         self.bg_genes = _.bg_genes(self.expression_ranks)
@@ -43,7 +44,7 @@ class TestPathwayAssessor(unittest.TestCase):
         self.log_geometric_averages = _.neg_log(self.geometric_averages)
         self.log_min_p_vals = _.neg_log(self.p_values.min())
 
-        self.user_pathway_f = '/Users/anna/PycharmProjects/PathwayAssessor/pathway_assessor/tests/user_pathways.txt'
+        self.user_pathway_f = '{}/user_pathways.txt'.format(self.test_dir)
         self.user_pathway_db, self.user_pw_data = _.user_pathways(self.user_pathway_f)
 
     # sanity check
@@ -325,5 +326,4 @@ class TestPathwayAssessor(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    # print(dir(_))
     unittest.main()
