@@ -4,8 +4,8 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="pathway-assessor",
-    version="0.0.1",
+    name="pathway-assessor-annapamma2",
+    version="0.0.31",
     author="Anna Calinawan",
     author_email="anna.calinawan@mssm.edu",
     description="For assessing the overrepresentation "
@@ -26,4 +26,5 @@ setuptools.setup(
           "scipy",
           "pandas"
     ],
+    include_package_data=True,
 )
