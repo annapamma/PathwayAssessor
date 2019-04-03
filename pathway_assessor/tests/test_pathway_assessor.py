@@ -48,7 +48,7 @@ class TestPathwayAssessor(unittest.TestCase):
         self.user_pathway_db, self.user_pw_data = _.user_pathways(self.user_pathway_f)
 
         # run with db pathway
-        self.db_pathway = _.db_pathways('kegg')
+        self.db_pathway = _.db_pathways_dict('kegg')
 
     # sanity check
     def test_hello_world_returns_str(self):
@@ -335,7 +335,6 @@ class TestPathwayAssessor(unittest.TestCase):
     def test_run_with_kegg_returns_dicts_of_dataframes_with_shape(self):
         results = _.pathway_assessor(
             expression_table_f=self.expression_table_f,
-            pathways=self.db_pathway,
             geometric=True,
             min_p_val=True,
         )
@@ -344,6 +343,19 @@ class TestPathwayAssessor(unittest.TestCase):
         self.assertEqual(results['harmonic'].shape, (323, 3))
         self.assertEqual(results['geometric'].shape, (323, 3))
         self.assertEqual(results['min_p_val'].shape, (323, 3))
+
+    def test_validate_pathway_returns_true_if_pathways_are_valid(self):
+        valid_pw = {'pathway': ['a', 'b', 'c']}
+        self.assertTrue(_.validate_pathways(valid_pw))
+
+    def test_validate_pathway_raises_TypeError_if_pathways_are_invalid(self):
+        self.assertRaises(TypeError, _.validate_pathways({'broken': 'should_be_list'}))
+        self.assertRaises(TypeError, _.validate_pathways({
+            'okay': ['a', 'b', 'c'],
+            'broken': 'should_be_list'
+        }))
+        with self.assertRaises(TypeError):
+            _.validate_pathways(['Should', 'be', 'dict'])
 
 
 if __name__ == '__main__':

@@ -1,6 +1,9 @@
 import csv
 import pathlib
 import pickle
+import os
+
+from collections.abc import Iterable
 
 import numpy as np
 import pandas as pd
@@ -127,17 +130,37 @@ def user_pathways(f):
     return pathway_db, pw_data
 
 
-def db_pathways(pw_name):
-    return pickle.load(open('databases/{}.pkl'.format(pw_name), 'rb'))
+def db_pathways_dict(db_name):
+    db_parent = os.path.dirname(os.path.abspath(__file__))
+    return pickle.load(open('{}/databases/{}.pkl'.format(db_parent, db_name), 'rb'))
+
+
+def validate_pathways(pw_dict):
+    if not isinstance(pw_dict, dict):
+        raise TypeError("Pathways should be a dictionary of lists or sets")
+
+    if not all([
+                isinstance(gene_list, Iterable)
+                for gene_list
+                in pw_dict.values()
+            ]):
+        raise TypeError("Pathways should be a dictionary of lists or sets")
+
+    return True
 
 
 def pathway_assessor(
         expression_table_f,
-        pathways,
+        pathways=None,
+        db='kegg',
         geometric=False,
         min_p_val=False,
         ascending=True
 ):
+
+    if not pathways:
+        pathways = db_pathways_dict(db)
+
     harmonic_averages = [None] * len(pathways)
 
     if geometric:
