@@ -3,6 +3,7 @@
 - [Authors](#authors)
 - [Overview](#Overview)
 - [Installation](#installation)
+- [Usage](#usage)
 - [Contributions](#contributions)
 
 ## Authors
