@@ -47,6 +47,10 @@ class TestPathwayAssessor(unittest.TestCase):
         self.user_pathway_f = '{}/user_pathways.txt'.format(self.test_dir)
         self.user_pathway_db, self.user_pw_data = _.user_pathways(self.user_pathway_f)
 
+        # run with db pathway
+        self.db_pathway = _.db_pathways('kegg')
+
+    """
     # sanity check
     def test_hello_world_returns_str(self):
         self.assertIsInstance('hello world', str)
@@ -323,6 +327,11 @@ class TestPathwayAssessor(unittest.TestCase):
         )
         self.assertIsNone(results['geometric'])
         self.assertIsNone(results['min_p_val'])
+    """
+
+    def test_db_pathways_returns_dict_of_expected_length(self):
+        expected_len = 323
+        self.assertEqual(len(self.db_pathway), expected_len)
 
 
 if __name__ == '__main__':

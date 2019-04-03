@@ -127,6 +127,10 @@ def user_pathways(f):
     return pathway_db, pw_data
 
 
+def db_pathways(pw_name):
+    return pickle.load(open('databases/{}.pkl'.format(pw_name), 'rb'))
+
+
 def pathway_assessor(
         expression_table_f,
         pathways,
