@@ -357,6 +357,21 @@ class TestPathwayAssessor(unittest.TestCase):
         with self.assertRaises(TypeError):
             _.validate_pathways(['Should', 'be', 'dict'])
 
+    def test_db_pathways_dict_opens_all_pathway_dicts(self):
+        self.assertIsInstance(_.db_pathways_dict('hallmark'), dict)
+        self.assertIsInstance(_.db_pathways_dict('reactome'), dict)
+        self.assertIsInstance(_.db_pathways_dict('hmdb_smpdb'), dict)
+
+    def test_validate_db_name_returns_true_if_pathways_are_valid(self):
+        self.assertTrue(_.validate_db_name('kegg'))
+        self.assertTrue(_.validate_db_name('hallmark'))
+        self.assertTrue(_.validate_db_name('reactome'))
+        self.assertTrue(_.validate_db_name('hmdb_smpdb'))
+
+    def test_validate_raises_error_if_db_not_available(self):
+        with self.assertRaises(ValueError):
+            _.validate_db_name('nonexistent')
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -130,9 +130,21 @@ def user_pathways(f):
     return pathway_db, pw_data
 
 
+def validate_db_name(db_name):
+    available_dbs = ['kegg', 'hallmark', 'reactome', 'hmdb_smpdb']
+    if db_name.lower() not in available_dbs:
+        raise ValueError(
+            "{} not recognized. Available dbs: {}".format(db_name, ",".join(available_dbs))
+        )
+    return True
+
+
 def db_pathways_dict(db_name):
+    validate_db_name(db_name)
     db_parent = os.path.dirname(os.path.abspath(__file__))
-    return pickle.load(open('{}/databases/{}.pkl'.format(db_parent, db_name), 'rb'))
+    with open('{}/databases/{}.pkl'.format(db_parent, db_name.lower()), 'rb') as f:
+        pathways = pickle.load(f)
+    return pathways
 
 
 def validate_pathways(pw_dict):
