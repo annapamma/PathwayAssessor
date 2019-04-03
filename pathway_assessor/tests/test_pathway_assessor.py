@@ -221,6 +221,12 @@ class TestPathwayAssessor(unittest.TestCase):
             expected
         )
 
+    def test_geometric_average_returns_nan_if_all_vals_are_nan(self):
+        p_vals = [np.nan, np.nan]
+        self.assertTrue(
+            np.isnan(_.geometric_average(p_vals))
+        )
+
     def test_geometric_averages_returns_dict_of_expected_values(self):
         expected_dict = {
             'Sample_A': 0.002694464626458197,
