@@ -50,7 +50,8 @@ For all, harmonic, geometric, and min_p_val.
 | db 	       |	kegg	            |string indicating which of the included pathway databases to use. Options include: 'kegg', 'reactome', 'hmdb_smpdb', 'hallmark'
 | ascending  		       | True	           | boolean for what direction to sort the expression table
 
-Additional arguments for all:
+Additional arguments for pathway_assessor.all:
+
 | Parameter                 | Default       | Description   |	
 | :------------------------ |:-------------:| :-------------|
 | geometric	       |True	          | boolean of whether to calculate and include geometric average
