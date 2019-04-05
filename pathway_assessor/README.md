@@ -10,7 +10,7 @@
 
 ## Data Input
 The expression matrix must be a dataframe with genes in rows and samples in columns. 
-The rownames should be gene symbols.
+The rownames should be gene symbols. Rows with duplicate symbols will be averaged.
 
 ## pathwayassessor.harmonic
 - [Description](#description)
@@ -23,7 +23,10 @@ The rownames should be gene symbols.
 
 ### Description
 
-This function returns a dataframe of pathways x samples, with 
+This function returns a dataframe of pathways x samples. 
+Each value is an overrepresentation or underrepresentation score for a given pathway 
+calculated by harmonically averaging all of the gene rank-based p-values for each gene 
+that pathway. 
 
 ### Usage
 ```
