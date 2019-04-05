@@ -450,6 +450,5 @@ class TestPathwayAssessor(unittest.TestCase):
         self.assertAlmostEqual(results['Sample_C'], expected_results['Sample_C'])
 
 
-
 if __name__ == '__main__':
     unittest.main()
