@@ -152,23 +152,18 @@ def db_pathways_dict(db_name):
 def validate_pathways(pw_dict):
     if not isinstance(pw_dict, dict):
         raise TypeError("Pathways should be a dictionary of lists or sets")
-
-    if not all([
-                isinstance(gene_list, Iterable)
-                for gene_list
-                in pw_dict.values()
-            ]):
+    if any(not isinstance(gene_list, Iterable) for gene_list in pw_dict.values()):
         raise TypeError("Pathways should be a dictionary of lists or sets")
 
     return True
 
 
-def pathway_assessor(
+def all(
         expression_table_f,
         pathways=None,
         db='kegg',
-        geometric=False,
-        min_p_val=False,
+        geometric=True,
+        min_p_val=True,
         ascending=True
 ):
 
@@ -237,3 +232,54 @@ def pathway_assessor(
                'geometric': geometric_averages_df,
                 'min_p_val': min_p_vals_df
     }
+
+
+def pa_stats(
+        expression_table_f,
+        mode='harmonic',
+        pathways=None,
+        db='kegg',
+        ascending=True
+):
+    if not pathways:
+        pathways = db_pathways_dict(db)
+    else:
+        validate_pathways(pathways)
+
+    averages = [None] * len(pathways)
+
+    expression_table_df = expression_table(expression_table_f)
+    expression_ranks_df = expression_ranks(expression_table_df, ascending=ascending)
+    bg_genes_df = bg_genes(expression_ranks_df)
+
+    sample_order = expression_table_df.columns
+
+    # perform analysis for each pathway
+    for i, pathway in enumerate(pathways):
+        pathway_ranks_df = pathway_ranks(pathways[pathway], expression_ranks_df)
+        effective_pathway_df = effective_pathway(pathway_ranks_df)
+        b_df = b(expression_ranks_df, pathway_ranks_df)
+        c_df = c(effective_pathway_df, pathway_ranks_df)
+        d_df = d(bg_genes_df, pathway_ranks_df, b_df, c_df)
+
+        sample_2x2_df = sample_2x2(
+            pathway_ranks_df.to_dict(),
+            b_df.to_dict(),
+            c_df.to_dict(),
+            d_df.to_dict()
+        )
+        p_values_df = p_values(sample_2x2_df)
+
+        if mode == 'geometric':
+            averages_series = neg_log(p_values_df.apply(geometric_average).loc[sample_order])
+        if mode == 'harmonic':
+            averages_series = neg_log(p_values_df.apply(harmonic_average).loc[sample_order])
+        if mode == 'min':
+            averages_series = neg_log(p_values_df.min().loc[sample_order])
+
+        averages_series.name = pathway
+        averages[i] = averages_series
+
+    averages_df = pd.concat(averages, axis=1).T
+
+    return averages_df

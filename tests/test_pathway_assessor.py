@@ -288,11 +288,12 @@ class TestPathwayAssessor(unittest.TestCase):
         self.assertDictEqual(self.user_pw_data, expected_pw_data)
 
     def test_pathway_assessor_returns_three_dataframes_of_expected_values(self):
-        results = _.pathway_assessor(
+        user_pathways = {
+            'Sample_pathway': ['SLC2A6', 'PHOSPHO1', 'PIKFYVE', 'VHL']
+        }
+        results = _.all(
             expression_table_f=self.expression_table_f,
-            pathways=self.user_pathway_db,
-            geometric=True,
-            min_p_val=True,
+            pathways=user_pathways
         )
         harmonic_avg = results['harmonic'].loc['Sample_pathway'].to_dict()
         geometric_avg = results['geometric'].loc['Sample_pathway'].to_dict()
@@ -324,7 +325,7 @@ class TestPathwayAssessor(unittest.TestCase):
         self.assertAlmostEqual(min_p_vals['Sample_C'], expected_min_p_vals['Sample_C'])
 
     def test_pathway_assessor_returns_none_if_statistic_is_set_to_false(self):
-        results = _.pathway_assessor(
+        results = _.all(
             expression_table_f=self.expression_table_f,
             pathways=self.user_pathway_db,
             geometric=False,
@@ -339,10 +340,8 @@ class TestPathwayAssessor(unittest.TestCase):
         self.assertEqual(len(self.db_pathway), expected_len)
 
     def test_run_with_kegg_returns_dicts_of_dataframes_with_shape(self):
-        results = _.pathway_assessor(
+        results = _.all(
             expression_table_f=self.expression_table_f,
-            geometric=True,
-            min_p_val=True,
         )
         self.assertIsInstance(results, dict)
         self.assertIsInstance(results['harmonic'], pd.DataFrame)
@@ -377,6 +376,24 @@ class TestPathwayAssessor(unittest.TestCase):
     def test_validate_raises_error_if_db_not_available(self):
         with self.assertRaises(ValueError):
             _.validate_db_name('nonexistent')
+
+    def test_pa_stats_returns_expected_results_for_default_mode_harmonic(self):
+        user_pathways = {
+            'Sample_pathway': ['SLC2A6', 'PHOSPHO1', 'PIKFYVE', 'VHL']
+        }
+        results = _.pa_stats(
+            expression_table_f=self.expression_table_f,
+            pathways=user_pathways
+        )
+        results = results.loc['Sample_pathway']
+        expected_results = {
+            'Sample_A': 8.610084236222475,
+            'Sample_B': 9.519349644266763,
+            'Sample_C': 6.02244237008846
+        }
+        self.assertAlmostEqual(results['Sample_A'], expected_results['Sample_A'])
+        self.assertAlmostEqual(results['Sample_B'], expected_results['Sample_B'])
+        self.assertAlmostEqual(results['Sample_C'], expected_results['Sample_C'])
 
 
 if __name__ == '__main__':
