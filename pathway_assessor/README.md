@@ -1,4 +1,5 @@
 ## Usage
+- [Data Input](#data-input)
 - [Arguments](#arguments)
    - Arguments for pathway_assessor.harmonic, pathway_assessor.geometric, and pathway_assessor.min_p_val are the same.
 - [pathwayassessor.harmonic](#harmonic)
@@ -6,7 +7,7 @@
 - [pathwayassessor.geometric](#geometric)
    - Pathway overrepresentation and underrepresentation scores derived from geometric averaging of p-values
 - [pathwayassessor.minpval](#minpval)
-   - Negative log of minimum p-values for each sample-pathway paid
+   - Negative log of minimum p-values for each sample-pathway pair
 - [pathwayassessor.all](#all)
    - Dictionary with harmonic, geometric, and min-p-val results
 
@@ -100,6 +101,32 @@ that pathway. Values reported are the geometric log of the harmonic average.
 ### Usage
 ```
 pathwayassessor.geometric(
+        expression_table,
+        pathways=None,
+        db='kegg',
+        ascending=True
+)
+```
+
+### Example
+TBD
+
+
+## pathwayassessor.min_p_val
+- [Description](#description)
+- [Usage](#usage)
+- [Example](#example)
+
+
+### Description
+
+This function returns a dataframe of pathways x samples. 
+Each value is the negative log of the minimum p-value associated with each 
+pathway for every sample. 
+
+### Usage
+```
+pathwayassessor.min_p_val(
         expression_table,
         pathways=None,
         db='kegg',
