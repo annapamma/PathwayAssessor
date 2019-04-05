@@ -113,33 +113,6 @@ pathwayassessor.geometric(
 ### Example
 TBD
 
-## pathwayassessor.geometric
-- [Description](#description)
-- [Usage](#usage)
-- [Example](#example)
-
-
-### Description
-
-This function returns a dataframe of pathways x samples. 
-Each value is an overrepresentation or underrepresentation score for a given pathway 
-calculated by geometrically averaging all of the gene rank-based p-values for each gene 
-that pathway. Values reported are the geometric log of the harmonic average.
-
-### Usage
-```
-pathwayassessor.geometric(
-        expression_table,
-        pathways=None,
-        db='kegg',
-        ascending=True
-)
-```
-
-### Example
-TBD
-
-
 ## pathwayassessor.min_p_val
 - [Description](#description)
 - [Usage](#usage)
