@@ -10,8 +10,7 @@ import pandas as pd
 import scipy.stats as stats
 
 
-def expression_table(f):
-    df = pd.read_csv(f, sep='\t', header=0, index_col=0)
+def processed_expression_table(df):
     df.index.name = 'genes'
     return df.groupby('genes').mean()
 
@@ -159,7 +158,7 @@ def validate_pathways(pw_dict):
 
 
 def all(
-        expression_table_f,
+        expression_table,
         pathways=None,
         db='kegg',
         geometric=True,
@@ -179,7 +178,7 @@ def all(
     if min_p_val:
         min_p_vals = [None] * len(pathways)
 
-    expression_table_df = expression_table(expression_table_f)
+    expression_table_df = processed_expression_table(expression_table)
     expression_ranks_df = expression_ranks(expression_table_df, ascending=ascending)
     bg_genes_df = bg_genes(expression_ranks_df)
 
@@ -235,7 +234,7 @@ def all(
 
 
 def pa_stats(
-        expression_table_f,
+        expression_table,
         mode='harmonic',
         pathways=None,
         db='kegg',
@@ -248,7 +247,7 @@ def pa_stats(
 
     averages = [None] * len(pathways)
 
-    expression_table_df = expression_table(expression_table_f)
+    expression_table_df = processed_expression_table(expression_table)
     expression_ranks_df = expression_ranks(expression_table_df, ascending=ascending)
     bg_genes_df = bg_genes(expression_ranks_df)
 
@@ -287,28 +286,28 @@ def pa_stats(
 
 # Try doing this with a decorator
 def harmonic(
-        expression_table_f,
+        expression_table,
         pathways=None,
         db='kegg',
         ascending=True
 ):
-    return pa_stats(expression_table_f, 'harmonic', pathways, db, ascending)
+    return pa_stats(expression_table, 'harmonic', pathways, db, ascending)
 
 
 def geometric(
-        expression_table_f,
+        expression_table,
         pathways=None,
         db='kegg',
         ascending=True
 ):
-    return pa_stats(expression_table_f, 'geometric', pathways, db, ascending)
+    return pa_stats(expression_table, 'geometric', pathways, db, ascending)
 
 
 def min_p_val(
-        expression_table_f,
+        expression_table,
         pathways=None,
         db='kegg',
         ascending=True
 ):
-    return pa_stats(expression_table_f, 'min', pathways, db, ascending)
+    return pa_stats(expression_table, 'min', pathways, db, ascending)
 

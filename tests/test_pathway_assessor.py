@@ -13,10 +13,14 @@ import pathway_assessor as _
 class TestPathwayAssessor(unittest.TestCase):
 
     def setUp(self):
+
         self.test_dir = os.path.dirname(os.path.abspath(__file__))
         self.ascending = True
         self.expression_table_f = '{}/expression_table.tsv'.format(self.test_dir)
-        self.expression_table = _.expression_table(self.expression_table_f)
+        self.expression_table_unprocessed = pd.read_csv(self.expression_table_f, sep='\t', header=0, index_col=0)
+
+        self.expression_table = _.processed_expression_table(self.expression_table_unprocessed)
+
         self.expression_ranks = _.expression_ranks(self.expression_table, ascending=self.ascending)
         self.bg_genes = _.bg_genes(self.expression_ranks)
 
@@ -292,7 +296,7 @@ class TestPathwayAssessor(unittest.TestCase):
             'Sample_pathway': ['SLC2A6', 'PHOSPHO1', 'PIKFYVE', 'VHL']
         }
         results = _.all(
-            expression_table_f=self.expression_table_f,
+            expression_table=self.expression_table,
             pathways=user_pathways
         )
         harmonic_avg = results['harmonic'].loc['Sample_pathway'].to_dict()
@@ -326,7 +330,7 @@ class TestPathwayAssessor(unittest.TestCase):
 
     def test_pathway_assessor_returns_none_if_statistic_is_set_to_false(self):
         results = _.all(
-            expression_table_f=self.expression_table_f,
+            expression_table=self.expression_table,
             pathways=self.user_pathway_db,
             geometric=False,
             min_p_val=False,
@@ -341,7 +345,7 @@ class TestPathwayAssessor(unittest.TestCase):
 
     def test_run_with_kegg_returns_dicts_of_dataframes_with_shape(self):
         results = _.all(
-            expression_table_f=self.expression_table_f,
+            expression_table=self.expression_table,
         )
         self.assertIsInstance(results, dict)
         self.assertIsInstance(results['harmonic'], pd.DataFrame)
@@ -382,7 +386,7 @@ class TestPathwayAssessor(unittest.TestCase):
             'Sample_pathway': ['SLC2A6', 'PHOSPHO1', 'PIKFYVE', 'VHL']
         }
         results = _.pa_stats(
-            expression_table_f=self.expression_table_f,
+            expression_table=self.expression_table,
             pathways=user_pathways
         )
         results = results.loc['Sample_pathway']
@@ -400,7 +404,7 @@ class TestPathwayAssessor(unittest.TestCase):
             'Sample_pathway': ['SLC2A6', 'PHOSPHO1', 'PIKFYVE', 'VHL']
         }
         results = _.harmonic(
-            expression_table_f=self.expression_table_f,
+            expression_table=self.expression_table,
             pathways=user_pathways
         )
         results = results.loc['Sample_pathway']
@@ -418,7 +422,7 @@ class TestPathwayAssessor(unittest.TestCase):
             'Sample_pathway': ['SLC2A6', 'PHOSPHO1', 'PIKFYVE', 'VHL']
         }
         results = _.geometric(
-            expression_table_f=self.expression_table_f,
+            expression_table=self.expression_table,
             pathways=user_pathways
         )
         results = results.loc['Sample_pathway']
@@ -436,7 +440,7 @@ class TestPathwayAssessor(unittest.TestCase):
             'Sample_pathway': ['SLC2A6', 'PHOSPHO1', 'PIKFYVE', 'VHL']
         }
         results = _.min_p_val(
-            expression_table_f=self.expression_table_f,
+            expression_table=self.expression_table,
             pathways=user_pathways
         )
         results = results.loc['Sample_pathway']
