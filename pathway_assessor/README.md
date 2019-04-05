@@ -7,15 +7,17 @@
    - Negative log of minimum p-values for each sample-pathway paid
 - [pathwayassessor.all](#all)
    - Dictionary with harmonic, geometric, and min-p-val results
+- [Arguments](#arguments)
+   - Arguments for pathway_assessor.harmonic, pathway_assessor.geometric, and pathway_assessor.min_p_val are the same.
 
 ## Data Input
 The expression matrix must be a dataframe with genes in rows and samples in columns. 
 The rownames should be gene symbols. Rows with duplicate symbols will be averaged.
 
+
 ## pathwayassessor.harmonic
 - [Description](#description)
 - [Usage](#usage)
-- [Arguments](#arguments)
 - [Value](#value)
 - [Notes](#notes)
 - [Example](#example)
@@ -26,15 +28,30 @@ The rownames should be gene symbols. Rows with duplicate symbols will be average
 This function returns a dataframe of pathways x samples. 
 Each value is an overrepresentation or underrepresentation score for a given pathway 
 calculated by harmonically averaging all of the gene rank-based p-values for each gene 
-that pathway. 
+that pathway. Values reported are the negative log of the harmonic average.
 
 ### Usage
 ```
-DreamAI(data, k = 10, maxiter_MF = 10, ntree = 100,
-  maxnodes = NULL, maxiter_ADMIN = 30, tol = 10^(-2),
-  gamma_ADMIN = NA, gamma = 50, CV = FALSE,
-  fillmethod = "row_mean", maxiter_RegImpute = 10,
-  conv_nrmse = 1e-06, iter_SpectroFM = 40, method = c("KNN",
-  "MissForest", "ADMIN", "Brinn", "SpectroFM", "RegImpute"),
-  out = c("Ensemble"))
+pathwayassessor.harmonic(
+        expression_table,
+        pathways=None,
+        db='kegg',
+        ascending=True
+)
 ```
+
+### Arguments
+For all, harmonic, geometric, and min_p_val.
+
+| Parameter                 | Default       | Description   |	
+| :------------------------ |:-------------:| :-------------|
+| expression_table	       |	          | expression data frame with genes in rows and samples in columns.
+| pathways         | None           |a dictionary with pathway names as keys and sets or lists of genes as values
+| db 	       |	kegg	            |string indicating which of the included pathway databases to use. Options include: 'kegg', 'reactome', 'hmdb_smpdb', 'hallmark'
+| ascending  		       | True	           | boolean for what direction to sort the expression table
+
+Additional arguments for all:
+| Parameter                 | Default       | Description   |	
+| :------------------------ |:-------------:| :-------------|
+| geometric	       |True	          | boolean of whether to calculate and include geometric average
+| min_p_val         | True           |boolean of whether to calculate and include min p value
