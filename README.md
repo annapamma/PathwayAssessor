@@ -32,6 +32,19 @@ pip install -i https://test.pypi.org/simple/ --extra-index-url https://pypi.pyth
 ```
 Requires: Python >= 3.6
 
+## Usage
+To see more information about the main functions, visit the ReadMe included with the package code.
+
+```
+import pathway_assessor as pa
+
+pa.all()
+pa.harmonic()
+pa.geometric()
+pa.min_p_val()
+```
+
+
 ## References 
 1. Barbie, D.A. , et al. “Systematic RNA interference reveals…”,  Nature. 2009 Nov 5;462(7269):108-12.
 2. Abril-Rodrigues, G., Ribas A., “SnapShot: Immune Checkpoint Inhibitors”, Cancer Cell 31, June 12, 2017.
