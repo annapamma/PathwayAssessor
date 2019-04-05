@@ -14,3 +14,4 @@ __pycache__/
 # Local test coverage reports
 pathway_assessor/tests/.coverage
 htmlcov
+.coverage
