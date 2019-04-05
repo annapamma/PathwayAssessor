@@ -395,6 +395,61 @@ class TestPathwayAssessor(unittest.TestCase):
         self.assertAlmostEqual(results['Sample_B'], expected_results['Sample_B'])
         self.assertAlmostEqual(results['Sample_C'], expected_results['Sample_C'])
 
+    def test_harmonic_returns_expected_results(self):
+        user_pathways = {
+            'Sample_pathway': ['SLC2A6', 'PHOSPHO1', 'PIKFYVE', 'VHL']
+        }
+        results = _.harmonic(
+            expression_table_f=self.expression_table_f,
+            pathways=user_pathways
+        )
+        results = results.loc['Sample_pathway']
+        expected_results = {
+            'Sample_A': 8.610084236222475,
+            'Sample_B': 9.519349644266763,
+            'Sample_C': 6.02244237008846
+        }
+        self.assertAlmostEqual(results['Sample_A'], expected_results['Sample_A'])
+        self.assertAlmostEqual(results['Sample_B'], expected_results['Sample_B'])
+        self.assertAlmostEqual(results['Sample_C'], expected_results['Sample_C'])
+
+    def test_geometric_returns_expected_results(self):
+        user_pathways = {
+            'Sample_pathway': ['SLC2A6', 'PHOSPHO1', 'PIKFYVE', 'VHL']
+        }
+        results = _.geometric(
+            expression_table_f=self.expression_table_f,
+            pathways=user_pathways
+        )
+        results = results.loc['Sample_pathway']
+        expected_results = {
+            'Sample_A': 5.916555748731008,
+            'Sample_B': 7.153859966001466,
+            'Sample_C': 4.75439878004548
+        }
+        self.assertAlmostEqual(results['Sample_A'], expected_results['Sample_A'])
+        self.assertAlmostEqual(results['Sample_B'], expected_results['Sample_B'])
+        self.assertAlmostEqual(results['Sample_C'], expected_results['Sample_C'])
+
+    def test_min_p_val_returns_expected_results(self):
+        user_pathways = {
+            'Sample_pathway': ['SLC2A6', 'PHOSPHO1', 'PIKFYVE', 'VHL']
+        }
+        results = _.min_p_val(
+            expression_table_f=self.expression_table_f,
+            pathways=user_pathways
+        )
+        results = results.loc['Sample_pathway']
+        expected_results = {
+            'Sample_A': 9.690912952571226,
+            'Sample_B': 10.576744476960645,
+            'Sample_C': 6.695180679017199
+        }
+        self.assertAlmostEqual(results['Sample_A'], expected_results['Sample_A'])
+        self.assertAlmostEqual(results['Sample_B'], expected_results['Sample_B'])
+        self.assertAlmostEqual(results['Sample_C'], expected_results['Sample_C'])
+
+
 
 if __name__ == '__main__':
     unittest.main()

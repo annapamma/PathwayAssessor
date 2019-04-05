@@ -283,3 +283,32 @@ def pa_stats(
     averages_df = pd.concat(averages, axis=1).T
 
     return averages_df
+
+
+# Try doing this with a decorator
+def harmonic(
+        expression_table_f,
+        pathways=None,
+        db='kegg',
+        ascending=True
+):
+    return pa_stats(expression_table_f, 'harmonic', pathways, db, ascending)
+
+
+def geometric(
+        expression_table_f,
+        pathways=None,
+        db='kegg',
+        ascending=True
+):
+    return pa_stats(expression_table_f, 'geometric', pathways, db, ascending)
+
+
+def min_p_val(
+        expression_table_f,
+        pathways=None,
+        db='kegg',
+        ascending=True
+):
+    return pa_stats(expression_table_f, 'min', pathways, db, ascending)
+
