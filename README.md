@@ -32,14 +32,6 @@ pip install -i https://test.pypi.org/simple/ --extra-index-url https://pypi.pyth
 ```
 Requires: Python >= 3.6
 
-## Usage
-- [pathwayassessor.harmonic](#harmonic)
-   - Pathway overrepresentation and underrepresentation scores derived from harmonic averaging of p-values
-- [pathwayassessor.geometric](#geometric)
-   - Pathway overrepresentation and underrepresentation scores derived from geometric averaging of p-values
-- [pathwayassessor.minpval](#minpval)
-   - Negative log of minimum p-values for each sample-pathway paid
-
 ## References 
 1. Barbie, D.A. , et al. “Systematic RNA interference reveals…”,  Nature. 2009 Nov 5;462(7269):108-12.
 2. Abril-Rodrigues, G., Ribas A., “SnapShot: Immune Checkpoint Inhibitors”, Cancer Cell 31, June 12, 2017.
