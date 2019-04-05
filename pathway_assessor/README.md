@@ -2,14 +2,15 @@
 - [Data Input](#data-input)
 - [Arguments](#arguments)
    - Arguments for pathway_assessor.harmonic, pathway_assessor.geometric, and pathway_assessor.min_p_val are the same.
+- [pathwayassessor.all](#all)
+   - Dictionary with harmonic, geometric, and min-p-val results
 - [pathwayassessor.harmonic](#harmonic)
    - Pathway overrepresentation and underrepresentation scores derived from harmonic averaging of p-values
 - [pathwayassessor.geometric](#geometric)
    - Pathway overrepresentation and underrepresentation scores derived from geometric averaging of p-values
 - [pathwayassessor.minpval](#minpval)
    - Negative log of minimum p-values for each sample-pathway pair
-- [pathwayassessor.all](#all)
-   - Dictionary with harmonic, geometric, and min-p-val results
+
 
 ## Data Input
 The expression matrix must be a dataframe with genes in rows and samples in columns. 
@@ -31,6 +32,33 @@ Additional arguments for pathway_assessor.all:
 | :------------------------ |:-------------:| :-------------|
 | geometric	       |True	          | boolean of whether to calculate and include geometric average
 | min_p_val         | True           |boolean of whether to calculate and include min p value
+
+## pathwayassessor.all
+- [Description](#description)
+- [Usage](#usage)
+- [Example](#example)
+
+
+### Description
+
+This function returns a dictionary with results for harmonically averaged p-values, 
+geometrically averaged p-values, and minimum p-values. Each value in the result dictionary
+is a dataframe.
+
+### Usage
+```
+pathwayassessor.harmonic(
+        expression_table,
+        pathways=None,
+        db='kegg',
+        geometric=True,
+        min_p_val=True,
+        ascending=True
+)
+```
+
+### Example
+TBD
 
 ## pathwayassessor.harmonic
 - [Description](#description)
