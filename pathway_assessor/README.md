@@ -8,7 +8,7 @@
    - Pathway overrepresentation and underrepresentation scores derived from harmonic averaging of p-values
 - [pathway_assessor.geometric](#geometric)
    - Pathway overrepresentation and underrepresentation scores derived from geometric averaging of p-values
-- [pathway_assessor.minpval](#minpval)
+- [pathway_assessor.min_p_val](#minpval)
    - Negative log of minimum p-values for each sample-pathway pair
 
 
