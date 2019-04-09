@@ -73,6 +73,11 @@ Each value is an overrepresentation or underrepresentation score for a given pat
 calculated by harmonically averaging all of the gene rank-based p-values for each gene 
 that pathway. Values reported are the negative log of the harmonic average.
 
+```
+Ph = N/SUM (1/Pk) = N/(1/P1 +1/P2 +++ 1/PN)
+Reported value: -log(Ph)
+```
+
 ### Usage
 ```
 pathwayassessor.harmonic(
