@@ -25,6 +25,7 @@ genes from both top and bottom of the ranked gene list of a given sample.
 
 ## Installation
 Requires: Python >= 3.6
+
 To install the latest version of PathwayAssessor, run:
 
 ```
