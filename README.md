@@ -32,7 +32,7 @@ pip install pathway-assessor
 ```
 
 ## Usage
-To see more information about the main functions, visit the ReadMe included with the package code.
+To see more information about the main functions, visit the [ReadMe included with the package code](https://github.com/annapamma/PathwayAssessor/tree/master/pathway_assessor).
 
 ```
 import pathway_assessor as pa
