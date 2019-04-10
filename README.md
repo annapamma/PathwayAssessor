@@ -28,8 +28,7 @@ Requires: Python >= 3.6
 To install the latest version of PathwayAssessor, run:
 
 ```
-pip install -i https://test.pypi.org/simple/ --extra-index-url https://pypi.python.org/pypi pathway-assessor-annapamma2==0.0.32
-
+pip install pathway-assessor
 ```
 
 ## Usage
