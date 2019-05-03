@@ -15,3 +15,6 @@ __pycache__/
 pathway_assessor/tests/.coverage
 htmlcov
 .coverage
+
+# db tables
+*/databases/as_tables
