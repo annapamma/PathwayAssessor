@@ -90,7 +90,7 @@ pathway_assessor.harmonic(
 ```
 
 ### Example
-TBD
+Forthcoming
 
 
 ## pathway_assessor.geometric
@@ -120,7 +120,7 @@ pathway_assessor.geometric(
 ```
 
 ### Example
-TBD
+Forthcoming
 
 ## pathway_assessor.min_p_val
 - [Description](#description)
@@ -145,4 +145,4 @@ pathway_assessor.min_p_val(
 ```
 
 ### Example
-TBD
+Forthcoming
