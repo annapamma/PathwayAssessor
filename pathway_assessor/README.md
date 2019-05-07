@@ -25,6 +25,7 @@ For all, harmonic, geometric, and min_p_val.
 | pathways         | None           |a dictionary with pathway names as keys and sets or lists of genes as values
 | db 	       |	'kegg'	            |string indicating which of the included pathway databases to use. Options include: 'kegg', 'reactome', 'hmdb_smpdb', 'hallmark'
 | ascending  		       | True	           | boolean for what direction to sort the expression table
+| rank_method  		       | 'max'	           | string for assigning ranks to equal values. Options include: 'average' (average rank of group), 'min' (lowest rank in group), 'max' (highest rank in group), 'first' (ranks assigned in order they appear in the array)
 
 Additional arguments for pathway_assessor.all:
 
