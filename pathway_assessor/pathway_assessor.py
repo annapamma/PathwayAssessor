@@ -315,4 +315,3 @@ def min_p_val(
         rank_method='max'
 ):
     return pa_stats(expression_table, 'min', pathways, db, ascending, rank_method)
-
