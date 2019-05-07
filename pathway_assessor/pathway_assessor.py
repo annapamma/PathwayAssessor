@@ -15,8 +15,8 @@ def processed_expression_table(df):
     return df.groupby('genes').mean()
 
 
-def expression_ranks(expression_table_df, ascending):
-    return expression_table_df.rank(method='first', ascending=ascending)
+def expression_ranks(expression_table_df, ascending, rank_method='max'):
+    return expression_table_df.rank(method=rank_method, ascending=ascending)
 
 
 # bg_genes: df of samples with background gene count

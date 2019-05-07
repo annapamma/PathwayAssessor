@@ -29,6 +29,7 @@ class TestPathwayAssessor(unittest.TestCase):
         self.sample_pathway = ['SLC2A6', 'PHOSPHO1', 'PIKFYVE', 'VHL']
 
         self.pathway_ranks = _.pathway_ranks(self.sample_pathway, self.expression_ranks)
+
         self.effective_pathway = _.effective_pathway(self.pathway_ranks)
         self.b = _.b(self.expression_ranks, self.pathway_ranks)
         self.c = _.c(self.effective_pathway, self.pathway_ranks)
@@ -70,6 +71,15 @@ class TestPathwayAssessor(unittest.TestCase):
         self.assertEqual(self.expression_ranks['Sample_A'].loc['PIKFYVE'], 5)
         self.assertEqual(self.expression_ranks['Sample_B'].loc['PIKFYVE'], 4)
         self.assertEqual(self.expression_ranks['Sample_C'].loc['PIKFYVE'], 4)
+
+    def test_expression_ranks_is_dataframe_of_expected_values_with_max_rank_method(self):
+        self.assertEqual(self.expression_ranks['Sample_A'].loc['A1'], 100)
+
+    def test_expression_ranks_is_dataframe_of_expected_values_with_min_rank_method(self):
+        expression_ranks_min_method = _.expression_ranks(self.expression_table,
+                                                         ascending=self.ascending,
+                                                         rank_method='min')
+        self.assertEqual(expression_ranks_min_method['Sample_A'].loc['A1'], 6)
 
     def test_bg_returns_series_of_expected_lengths(self):
         expected = {
@@ -339,7 +349,7 @@ class TestPathwayAssessor(unittest.TestCase):
         self.assertIsNone(results['min_p_val'])
 
     def test_db_pathways_returns_dict_of_expected_length(self):
-        expected_len = 323
+        expected_len = 324
         self.assertIsInstance(self.db_pathway, dict)
         self.assertEqual(len(self.db_pathway), expected_len)
 
@@ -349,9 +359,9 @@ class TestPathwayAssessor(unittest.TestCase):
         )
         self.assertIsInstance(results, dict)
         self.assertIsInstance(results['harmonic'], pd.DataFrame)
-        self.assertEqual(results['harmonic'].shape, (323, 3))
-        self.assertEqual(results['geometric'].shape, (323, 3))
-        self.assertEqual(results['min_p_val'].shape, (323, 3))
+        self.assertEqual(results['harmonic'].shape, (324, 3))
+        self.assertEqual(results['geometric'].shape, (324, 3))
+        self.assertEqual(results['min_p_val'].shape, (324, 3))
 
     def test_validate_pathway_returns_true_if_pathways_are_valid(self):
         valid_pw = {'pathway': ['a', 'b', 'c']}
