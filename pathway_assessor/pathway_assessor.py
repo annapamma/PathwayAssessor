@@ -163,7 +163,8 @@ def all(
         db='kegg',
         geometric=True,
         min_p_val=True,
-        ascending=True
+        ascending=True,
+        rank_method='max'
 ):
 
     if not pathways:
@@ -179,7 +180,7 @@ def all(
         min_p_vals = [None] * len(pathways)
 
     expression_table_df = processed_expression_table(expression_table)
-    expression_ranks_df = expression_ranks(expression_table_df, ascending=ascending)
+    expression_ranks_df = expression_ranks(expression_table_df, ascending=ascending, rank_method=rank_method)
     bg_genes_df = bg_genes(expression_ranks_df)
 
     sample_order = expression_table_df.columns
@@ -238,7 +239,8 @@ def pa_stats(
         mode='harmonic',
         pathways=None,
         db='kegg',
-        ascending=True
+        ascending=True,
+        rank_method='max'
 ):
     if not pathways:
         pathways = db_pathways_dict(db)
@@ -248,7 +250,7 @@ def pa_stats(
     averages = [None] * len(pathways)
 
     expression_table_df = processed_expression_table(expression_table)
-    expression_ranks_df = expression_ranks(expression_table_df, ascending=ascending)
+    expression_ranks_df = expression_ranks(expression_table_df, ascending=ascending, rank_method=rank_method)
     bg_genes_df = bg_genes(expression_ranks_df)
 
     sample_order = expression_table_df.columns
