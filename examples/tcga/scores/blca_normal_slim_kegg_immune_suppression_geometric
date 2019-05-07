@@ -1,0 +1,21 @@
+	TCGA-BT-A20N	TCGA-BT-A20Q
+Chemokine signaling pathway	0.12173931832913794	0.09143298865684288
+Complement and coagulation cascades	0.005012541824726256	0.006018072326698487
+Platelet activation	0.011372088251338217	0.00795642303366285
+Antigen processing and presentation		
+Toll-like receptor signaling pathway	0.05165739498564332	0.04279528858775583
+NOD-like receptor signaling pathway	0.18144334804222398	0.24935734707694077
+RIG-I-like receptor signaling pathway		
+Cytosolic DNA-sensing pathway	0.43699428846952204	0.5455947036972489
+Hematopoietic cell lineage	0.6143360001365182	0.6674794338123321
+Natural killer cell mediated cytotoxicity	0.19845093872481814	0.20334092401844822
+IL-17 signaling pathway	0.16605458433150316	0.17673717850084444
+Th1 and Th2 cell differentiation		
+Th17 cell differentiation	0.15082288973644792	0.2094872248671891
+T cell receptor signaling pathway	0.05165739498564332	0.04279528858775583
+B cell receptor signaling pathway	0.05165739498564332	0.04279528858775583
+Fc epsilon RI signaling pathway	0.09434150125237704	0.10740424081260168
+Fc gamma R-mediated phagocytosis	0.08230326834269985	0.06021333095245149
+Leukocyte transendothelial migration	6.0267930828330705e-05	0.0010432441892831012
+Intestinal immune network for IgA production	1.7602608021695687	1.5606477482655237
+C-type lectin receptor signaling pathway	0.04619123679731637	0.03690761916355567
