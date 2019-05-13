@@ -28,7 +28,7 @@ class TestPathwayAssessor(unittest.TestCase):
 
         self.sample_pathway = ['SLC2A6', 'PHOSPHO1', 'PIKFYVE', 'VHL']
 
-        self.pathway_ranks = _.pathway_ranks(self.sample_pathway, self.expression_ranks)
+        self.pathway_ranks = _.pathway_ranks(self.sample_pathway, self.expression_ranks, rank_method='max')
 
         self.effective_pathway = _.effective_pathway(self.pathway_ranks)
         self.b = _.b(self.expression_ranks, self.pathway_ranks)

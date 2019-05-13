@@ -24,8 +24,8 @@ def bg_genes(expression_ranks_df):
     return expression_ranks_df.count()
 
 
-def pathway_ranks(pathway_genes, expression_ranks_df):
-    return expression_ranks_df.reindex(pathway_genes).rank().dropna(how='all')
+def pathway_ranks(pathway_genes, expression_ranks_df, rank_method):
+    return expression_ranks_df.reindex(pathway_genes).rank(method=rank_method).dropna(how='all')
 
 
 def effective_pathway(pathway_ranks_df):
@@ -187,7 +187,7 @@ def all(
 
     # perform analysis for each pathway
     for i, pathway in enumerate(pathways):
-        pathway_ranks_df = pathway_ranks(pathways[pathway], expression_ranks_df)
+        pathway_ranks_df = pathway_ranks(pathways[pathway], expression_ranks_df, rank_method=rank_method)
         effective_pathway_df = effective_pathway(pathway_ranks_df)
         b_df = b(expression_ranks_df, pathway_ranks_df)
         c_df = c(effective_pathway_df, pathway_ranks_df)
@@ -257,7 +257,7 @@ def pa_stats(
 
     # perform analysis for each pathway
     for i, pathway in enumerate(pathways):
-        pathway_ranks_df = pathway_ranks(pathways[pathway], expression_ranks_df)
+        pathway_ranks_df = pathway_ranks(pathways[pathway], expression_ranks_df, rank_method=rank_method)
         effective_pathway_df = effective_pathway(pathway_ranks_df)
         b_df = b(expression_ranks_df, pathway_ranks_df)
         c_df = c(effective_pathway_df, pathway_ranks_df)
