@@ -17,8 +17,7 @@ Boris Reva<sup>1</sup>, Anna Calinawan<sup>1</sup>
 Comparison of tumors by activities of molecular pathways can help nominate disease driver pathways, 
 identify targets for therapeutic intervention, and determine clinically relevant subtypes and diagnostic biomarkers. 
 We introduce a new method for calculating overrepresentation and underrepresentation scores to assess a pathway’s 
-activation and suppression, respectively. Similarly to the ssGSEA method, we assume that pathway activity can 
-be compared across different samples based on ranking the expression of pathway genes.  
+activation and suppression, respectively.
 The novelty of this approach is in independent assessment of overrepresentation and underrepresentation of pathway’s 
 genes from both top and bottom of the ranked gene list of a given sample.
 
