@@ -18,6 +18,7 @@ htmlcov
 
 # db tables
 */databases/as_tables
+*/databases/arch
 
 # scratch dir
 /scratch
