@@ -173,6 +173,8 @@ def all(
         validate_pathways(pathways)
 
     harmonic_averages = [None] * len(pathways)
+    geometric_averages = []
+    min_p_vals = []
 
     if geometric:
         geometric_averages = [None] * len(pathways)
@@ -187,6 +189,7 @@ def all(
 
     # perform analysis for each pathway
     for i, pathway in enumerate(pathways):
+        print('starting: {}'.format(pathway))
         pathway_ranks_df = pathway_ranks(pathways[pathway], expression_ranks_df, rank_method=rank_method)
         effective_pathway_df = effective_pathway(pathway_ranks_df)
         b_df = b(expression_ranks_df, pathway_ranks_df)
@@ -214,6 +217,7 @@ def all(
             min_p_vals_series = neg_log(p_values_df.min().loc[sample_order])
             min_p_vals_series.name = pathway
             min_p_vals[i] = min_p_vals_series
+        print('finished: {}'.format(pathway))
 
     harmonic_averages_df = pd.concat(harmonic_averages, axis=1).T
 
