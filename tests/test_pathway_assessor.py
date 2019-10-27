@@ -349,7 +349,7 @@ class TestPathwayAssessor(unittest.TestCase):
         self.assertIsNone(results['min_p_val'])
 
     def test_db_pathways_returns_dict_of_expected_length(self):
-        expected_len = 324
+        expected_len = 369
         self.assertIsInstance(self.db_pathway, dict)
         self.assertEqual(len(self.db_pathway), expected_len)
 
@@ -359,9 +359,9 @@ class TestPathwayAssessor(unittest.TestCase):
         )
         self.assertIsInstance(results, dict)
         self.assertIsInstance(results['harmonic'], pd.DataFrame)
-        self.assertEqual(results['harmonic'].shape, (324, 3))
-        self.assertEqual(results['geometric'].shape, (324, 3))
-        self.assertEqual(results['min_p_val'].shape, (324, 3))
+        self.assertEqual(results['harmonic'].shape, (369, 3))
+        self.assertEqual(results['geometric'].shape, (369, 3))
+        self.assertEqual(results['min_p_val'].shape, (369, 3))
 
     def test_validate_pathway_returns_true_if_pathways_are_valid(self):
         valid_pw = {'pathway': ['a', 'b', 'c']}
